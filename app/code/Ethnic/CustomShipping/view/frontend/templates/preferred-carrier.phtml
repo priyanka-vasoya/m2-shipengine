@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+?>
+    <div class="field choice">
+        <input type="checkbox"
+               name="preferred_carrier_checkbox"
+               title="<?= $escaper->escapeHtmlAttr(__('Preferred Carrier')) ?>"
+               value="1"
+               id="preferred_carrier_checkbox"
+               class="checkbox">
+        <label for="preferred_carrier_checkbox" class="label">
+            <span><?= $escaper->escapeHtmlAttr(__('Preferred Carrier')) ?></span>
+        </label>
+
+        <input type="hidden" name="preferred_carrier" value=""/>
+    </div>
+<script>
+require(['jquery', 'jquery/ui'], function($){
+    $(document).ready(function() {
+        $('#preferred_carrier_checkbox').change(function() {
+            var isChecked = $(this).is(':checked');
+            var value = isChecked ? 1 : 0;
+            $('input[name="preferred_carrier"]').val(value);
+        });
+    });
+});
+</script>
