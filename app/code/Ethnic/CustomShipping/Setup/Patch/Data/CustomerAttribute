@@ -1,0 +1,113 @@
+<?php
+declare (strict_types = 1);
+
+namespace Ethnic\CustomShipping\Setup\Patch\Data;
+
+use Magento\Catalog\Ui\DataProvider\Product\ProductCollectionFactory;
+use Magento\Customer\Model\Customer;
+use Magento\Eav\Model\Config;
+use Magento\Eav\Setup\EavSetupFactory;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
+use Magento\Framework\Setup\Patch\PatchRevertableInterface;
+use Psr\Log\LoggerInterface;
+use Magento\Customer\Model\ResourceModel\Attribute as AttributeResource;
+
+class CustomerAttribute implements DataPatchInterface, PatchRevertableInterface
+{
+   /**
+    * CustomerAttribute Constructor
+    *
+    * @param EavSetupFactory $eavSetupFactory
+    * @param Config $eavConfig
+    * @param LoggerInterface $logger
+    * @param AttributeResource $attributeResource
+    * @param ModuleDataSetupInterface $moduleDataSetup
+    */
+   public function __construct(
+      public EavSetupFactory $eavSetupFactory,
+      public Config $eavConfig,
+      public LoggerInterface $logger,
+      public AttributeResource $attributeResource,
+      public ModuleDataSetupInterface $moduleDataSetup
+   ) {
+   }
+
+   /**
+    * Apply function
+    *
+    * @return void
+    */
+   public function apply()
+   {
+       $this->moduleDataSetup->getConnection()->startSetup();
+       $this->addPrefrredAttribute();
+       $this->moduleDataSetup->getConnection()->endSetup();
+   }
+
+   /**
+    * Add PrefrredAttribute
+
+    * @throws \Magento\Framework\Exception\AlreadyExistsException
+    * @throws \Magento\Framework\Exception\LocalizedException
+    * @throws \Zend_Validate_Exception
+    * @return void
+    */
+   public function addPrefrredAttribute()
+   {
+       $eavSetup = $this->eavSetupFactory->create();
+       $eavSetup->addAttribute(
+           \Magento\Customer\Model\Customer::ENTITY,
+           'preferred_carrier',
+           [
+               'type' => 'static',
+               'label' => 'Preferred carrier',
+               'input' => 'boolean',
+               'required' => 0,
+               'visible' => 1,
+               'user_defined' => 1,
+               'sort_order' => 999,
+               'position' => 999,
+               'system' => 0
+           ]
+       );
+
+       $attributeSetId = $eavSetup->getDefaultAttributeSetId(Customer::ENTITY);
+       $attributeGroupId = $eavSetup->getDefaultAttributeGroupId(Customer::ENTITY);
+
+       $attribute = $this->eavConfig->getAttribute(Customer::ENTITY, 'preferred_carrier');
+       $attribute->setData('attribute_set_id', $attributeSetId);
+       $attribute->setData('attribute_group_id', $attributeGroupId);
+
+       $attribute->setData('used_in_forms', [
+           'adminhtml_customer',
+           'adminhtml_customer_address',
+           'customer_account_edit',
+           'customer_address_edit',
+           'customer_register_address',
+           'customer_account_create'
+       ]);
+
+       $this->attributeResource->save($attribute);
+   }
+
+    /**
+     * GetDependencies function
+     *
+     * @return array
+     */
+    public static function getDependencies(): array
+    {
+        return [];
+    }
+
+    /**
+     * GetAliases function
+     *
+     * @return array
+     */
+    public function getAliases(): array
+    {
+        return [];
+    }
+}

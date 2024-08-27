@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<carriers>
+			<shipengine>
+				<model>Ethnic\CustomShipping\Model\Carrier\ShipEngine</model>
+				<active>0</active>
+				<name>ShipEngine</name>
+				<title>ShipEngine</title>
+				<validate_name>Mickey and Minnie Mouse</validate_name>
+				<phone>714-781-4565</phone>
+				<company_name>The Walt Disney Company</company_name>
+				<postcode>91521</postcode>
+				<state>CA</state>
+				<city>Burbank</city>
+				<street_line1>500 South Buena Vista Street</street_line1>
+				<sandbox_api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+				<base_url>https://api.shipengine.com</base_url>
+			</shipengine>
+		</carriers>
+	</default>
+</config>

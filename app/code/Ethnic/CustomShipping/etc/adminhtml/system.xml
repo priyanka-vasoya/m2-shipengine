@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="carriers" sortOrder="1000" showInWebsite="1" showInStore="1"
+			showInDefault="1" translate="label">
+			<group id="shipengine" sortOrder="10" showInWebsite="1" showInStore="1"
+				showInDefault="1" translate="label">
+				<label>ShipEngin</label>
+				<field id="active" type="select" sortOrder="10" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="name" type="text" sortOrder="20" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Method Name</label>
+				</field>
+				<field id="title" type="text" sortOrder="30" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Title</label>
+				</field>
+				<field id="validate_name" type="text" sortOrder="40" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Validate Customer Name</label>
+				</field>
+				<field id="phone" type="text" sortOrder="50" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Phone</label>
+				</field>
+				<field id="company_name" type="text" sortOrder="60" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Company Name</label>
+				</field>
+				<field id="sallowspecific" type="select" sortOrder="70" showInWebsite="1" showInStore="1"
+					showInDefault="1" translate="label">
+					<label>Ship to Applicable Countries</label>
+					<frontend_class>shipping-applicable-country</frontend_class>
+					<source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+				</field>
+				<field id="specificcountry" type="multiselect" sortOrder="80" showInWebsite="1"
+					showInStore="1" showInDefault="1" translate="label">
+					<label>Ship to Specific Countries</label>
+					<can_be_empty>1</can_be_empty>
+					<source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+				</field>
+				<field id="postcode" translate="label" type="text" sortOrder="90" showInDefault="1"
+					showInWebsite="1" canRestore="1">
+                    <label>ZIP/Postal Code</label>
+                </field>
+                <field id="city" translate="label" type="text" sortOrder="100" showInDefault="1"
+					showInWebsite="1">
+                    <label>City</label>
+                </field>
+				<field id="state" translate="label" type="text" sortOrder="110" showInDefault="1"
+					showInWebsite="1">
+                    <label>State</label>
+                </field>
+                <field id="street_line1" translate="label" type="text" sortOrder="120" showInDefault="1"
+					showInWebsite="1">
+                    <label>Street Address</label>
+                </field>
+				<field id="sandbox_api_key" translate="label" type="obscure" sortOrder="130"
+					showInDefault="1" showInWebsite="1">
+                    <label>Sandbox API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+				<field id="base_url" translate="label comment" type="text" sortOrder="140" showInDefault="1"
+					showInWebsite="1" showInStore="1">
+                    <label>Base URL</label>
+                    <comment><![CDATA[Specify URL or {{base_url}}, or {{unsecure_base_url}} placeholder.]]></comment>
+                </field>
+			</group>
+		</section>
+	</system>
+</config>
